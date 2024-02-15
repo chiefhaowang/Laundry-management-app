@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "alipay",
+      "type": "java.lang.String",
+      "description": "Description for alipay."
+  }
+] }

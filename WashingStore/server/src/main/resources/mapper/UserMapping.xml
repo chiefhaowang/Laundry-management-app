@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.washingstore.dao.UserDao" >
+    <select id="getUserByMessage" resultType="com.example.washingstore.bean.User">
+        SELECT * FROM `user` WHERE
+        username=#{username} AND password=#{password}
+    </select>
+    
+    <insert id="register">
+        INSERT INTO `user`
+        (id,username,password,role)
+        VALUE
+        (#{id},#{username},#{password},#{role})
+    </insert>
+    
+    <select id="getAllClient" resultType="com.example.washingstore.bean.User">
+        SELECT * FROM `user`
+        <if test="username !=null">
+            WHERE username like #{username} AND role = 1
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+    
+    <select id="getClientCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `user`
+        <if test="username !=null">
+            WHERE username like #{username} AND role = 1
+        </if>
+    </select>
+
+    <insert id="addClient">
+        INSERT INTO `user`
+            (id,username,password,email,address,role)
+            VALUE
+            (#{id},#{username},#{password},#{email},#{address},#{role})
+    </insert>
+
+    <delete id="deleteClient">
+        DELETE FROM `user`
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getUpdateClient" resultType="com.example.washingstore.bean.User">
+        SELECT * FROM `user`
+        WHERE id = #{id}
+    </select>
+
+    <update id="editClient">
+        UPDATE `user` SET
+        username=#{username},password=#{password},email=#{email},address=#{address}
+        WHERE id=#{id}
+    </update>
+
+    <select id="getAllClerk" resultType="com.example.washingstore.bean.User">
+        SELECT * FROM `user`
+        <if test="username !=null">
+            WHERE username like #{username} AND role = 2
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getClerkCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `user`
+        <if test="username !=null">
+            WHERE username like #{username} AND role = 2
+        </if>
+    </select>
+
+    <insert id="addClerk">
+        INSERT INTO `user`
+            (id,username,password,email,address,role)
+            VALUE
+            (#{id},#{username},#{password},#{email},#{address},#{role})
+    </insert>
+
+    <delete id="deleteClerk">
+        DELETE FROM `user`
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getUpdateClerk" resultType="com.example.washingstore.bean.User">
+        SELECT * FROM `user`
+        WHERE id = #{id}
+    </select>
+
+    <update id="editClerk">
+        UPDATE `user` SET
+        username=#{username},password=#{password},email=#{email},address=#{address}
+        WHERE id=#{id}
+    </update>
+</mapper>

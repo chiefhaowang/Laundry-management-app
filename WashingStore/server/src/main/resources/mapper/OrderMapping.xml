@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.washingstore.dao.OrderDao">
+<!--    client-->
+    <select id="getOrderActived" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        <if test="phone !=null">
+            WHERE phone like #{phone} AND state != 0
+        </if>
+    </select>
+
+    <select id="getHisOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        <if test="phone !=null">
+            WHERE phone like #{phone} AND state = 0
+        </if>
+    </select>
+
+    <insert id="addOrder">
+        INSERT INTO `washing_order`
+        (id,username,phone,orderpay,address,content,state,deliver_give,deliver_get,year,month,week,day,hour,minute,second)
+        VALUE
+        (#{id},#{username},#{phone},#{orderpay},#{address},#{content},#{state},#{deliver_give},#{deliver_get},#{year},#{month},#{week},#{day},#{hour},#{minute},#{second})
+    </insert>
+<!--    clerk-->
+    <select id="getAllOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        <if test="username !=null">
+            WHERE username like #{username} AND state = 0
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getOrderCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `washing_order`
+        <if test="username !=null">
+            WHERE username like #{username} AND state=0
+        </if>
+    </select>
+
+    <select id="getStateOneOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        WHERE first_clerkname = #{first_clerkname}
+        AND first_clerkphone = #{first_clerkphone}
+        AND state = 1
+    </select>
+
+    <select id="getStateTwoOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        WHERE second_clerkname = #{second_clerkname}
+          AND second_clerkphone = #{second_clerkphone}
+          AND state = 2
+    </select>
+
+    <select id="getStateThreeOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        WHERE third_clerkname = #{third_clerkname}
+          AND third_clerkphone = #{third_clerkphone}
+          AND state = 3
+    </select>
+
+    <select id="getFreeOneOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        WHERE first_clerkname IS NULL AND state=1
+    </select>
+
+    <select id="getFreeTwoOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        WHERE second_clerkname IS NULL AND state=2
+    </select>
+
+    <select id="getFreeThreeOrder" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+        WHERE third_clerkname IS NULL AND state=3
+    </select>
+
+    <update id="editOrderState">
+        UPDATE `washing_order` SET
+        state=#{state}
+        WHERE id=#{id}
+    </update>
+
+<!--    <update id="OrderInCharge">-->
+<!--        UPDATE `washing_order` SET-->
+<!--        <if test="state==1">-->
+<!--            first_clerkname=#{first_clerkname},first_clerkphone=#{first_clerkphone},-->
+<!--        </if>-->
+<!--        <if test="state==2">-->
+<!--            second_clerkname=#{second_clerkname},second_clerkphone=#{second_clerkphone},-->
+<!--        </if>-->
+<!--        <if test="state==3">-->
+<!--            third_clerkname=#{third_clerkname},third_clerkphone=#{third_clerkphone},-->
+<!--        </if>-->
+<!--        id =#{id}-->
+<!--        WHERE id=#{id}-->
+<!--    </update>-->
+
+    <update id="OrderInChargeOne">
+        UPDATE `washing_order` SET
+        first_clerkname=#{first_clerkname},first_clerkphone=#{first_clerkphone}
+        WHERE id=#{id}
+    </update>
+
+    <update id="OrderInChargeTwo">
+        UPDATE `washing_order` SET
+        second_clerkname=#{second_clerkname},second_clerkphone=#{second_clerkphone}
+        WHERE id=#{id}
+    </update>
+
+    <update id="OrderInChargeThree">
+        UPDATE `washing_order` SET
+        third_clerkname=#{third_clerkname},third_clerkphone=#{third_clerkphone}
+        WHERE id=#{id}
+    </update>
+
+    <update id="endOrder">
+        UPDATE `washing_order` SET
+            state=0
+        WHERE id=#{id}
+    </update>
+
+<!--    admin-->
+    <select id="getPriceList" resultType="com.example.washingstore.bean.Order">
+        SELECT * FROM `washing_order`
+
+    </select>
+
+    <select id="getAllOrderCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `washing_order`
+
+    </select>
+</mapper>

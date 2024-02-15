@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.washingstore.dao.PriceDao">
+
+<!--    clothe-->
+    <select id="getPriceClothe" resultType="com.example.washingstore.bean.PriceClothe">
+        SELECT * FROM `price_clothe`
+    </select>
+
+    <select id="getAllClothePrice" resultType="com.example.washingstore.bean.PriceClothe">
+        SELECT * FROM `price_clothe`
+        <if test="name !=null">
+            WHERE name like #{name}
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getClothePriceCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `price_clothe`
+        <if test="name !=null">
+            WHERE name like #{name}
+        </if>
+    </select>
+
+    <insert id="addClothePrice">
+        INSERT INTO `price_clothe`
+            (name,shorter,mid,longer,suplong)
+            VALUE
+            (#{name},#{shorter},#{mid},#{longer},#{suplong})
+    </insert>
+
+    <delete id="deleteClothePrice">
+        DELETE FROM `price_clothe`
+        WHERE name=#{name}
+    </delete>
+
+    <select id="getUpdateClothePrice" resultType="com.example.washingstore.bean.PriceClothe">
+        SELECT * FROM `price_clothe`
+        WHERE
+        name=#{name}
+    </select>
+
+    <update id="editClothePrice">
+        UPDATE `price_clothe` SET
+        shorter=#{shorter},mid=#{mid},longer=#{longer},suplong=#{suplong}
+        where name=#{name}
+    </update>
+
+    <!--stuff-->
+    <select id="getPriceStuff" resultType="com.example.washingstore.bean.PriceStuff">
+        SELECT * FROM `price_stuff`
+    </select>
+
+    <select id="getAllStuffPrice" resultType="com.example.washingstore.bean.PriceStuff">
+        SELECT * FROM `price_stuff`
+        <if test="name !=null">
+            WHERE name like #{name}
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getStuffPriceCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `price_stuff`
+        <if test="name !=null">
+            WHERE name like #{name}
+        </if>
+    </select>
+
+    <insert id="addStuffPrice">
+        INSERT INTO `price_stuff`
+            (name,small,mid,big)
+            VALUE
+            (#{name},#{small},#{mid},#{big})
+    </insert>
+
+    <delete id="deleteStuffPrice">
+        DELETE FROM `price_stuff`
+        WHERE name=#{name}
+    </delete>
+
+    <select id="getUpdateStuffPrice" resultType="com.example.washingstore.bean.PriceStuff">
+        SELECT * FROM `price_stuff`
+        WHERE
+            name=#{name}
+    </select>
+
+    <update id="editStuffPrice">
+        UPDATE `price_stuff` SET
+                                  small=#{small},mid=#{mid},big=#{big}
+        where name=#{name}
+    </update>
+
+</mapper>
