@@ -38,7 +38,7 @@ public class AliPayController {
         String form = null;
         try {
             response = alipayClient.pageExecute(request);
-            form=response.getBody();//返回的支付页面
+            form=response.getBody();
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
